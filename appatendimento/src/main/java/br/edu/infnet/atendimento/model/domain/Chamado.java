@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 
 import br.edu.infnet.atendimento.interfaces.IPrinter;
+import br.edu.infnet.atendimento.model.exceptions.ClienteChamadoVazio;
 
 public class Chamado implements IPrinter {
 	private int codigo;
@@ -15,8 +16,13 @@ public class Chamado implements IPrinter {
     private Clientes cliente;
     private List<Profissional> profissionais;
     
-	public Chamado() {
-
+	public Chamado(Clientes cliente) throws ClienteChamadoVazio {
+		
+		if(cliente == null) {
+			throw new ClienteChamadoVazio("Informe o Cliente para poder incluir o Chamado!");
+		}
+		
+		this.cliente = cliente;
 	}
 	
 	public Chamado(int codigo, String problema, LocalDate dataini, LocalDate datafim, String solucao) {

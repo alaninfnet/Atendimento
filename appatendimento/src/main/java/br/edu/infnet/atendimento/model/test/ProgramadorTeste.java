@@ -1,5 +1,8 @@
 package br.edu.infnet.atendimento.model.test;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
@@ -14,50 +17,42 @@ public class ProgramadorTeste implements ApplicationRunner {
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
 		
-    	Programador p1 = new Programador();    	
-    	p1.setNome("ALAN");
-    	p1.setCPF("1234567890");
-    	p1.setSexo('M');
-    	p1.setIdade(23);  	
-    	p1.setLinguagem("JAVA");
-    	p1.setSabeoo('S');
-    	p1.setBebecafe('S');    	   	
-        Endereco e1 = new Endereco();
-        e1.setCidade("BOA ESPERANCA");
-        e1.setCEP(37170000);    	    	
-        p1.setResidencial(e1);    	
-        ProgramadorController.incluir(p1);
-        
-    	Programador p2 = new Programador();    	
-    	p2.setNome("GABRIEL");
-    	p2.setCPF("1234567890");
-    	p2.setSexo('M');
-    	p2.setIdade(23);  	
-    	p2.setLinguagem("DELPHI");
-    	p2.setSabeoo('N');
-    	p2.setBebecafe('S');    	   	
-        Endereco e2 = new Endereco();
-        e2.setCidade("BOA ESPERANCA");
-        e2.setCEP(37170000);    	    	
-        p2.setResidencial(e2);    	
-        System.out.println(p2.toString());   
-        ProgramadorController.incluir(p2);
-        
-    	Programador p3 = new Programador();    	
-    	p3.setNome("SANDRA");
-    	p3.setCPF("1234567890");
-    	p3.setSexo('F');
-    	p3.setIdade(23);  	
-    	p3.setLinguagem("COBOL");
-    	p3.setSabeoo('S');
-    	p3.setBebecafe('S');    	   	
-        Endereco e3 = new Endereco();
-        e3.setCidade("BOA ESPERANCA");
-        e3.setCEP(37170000);    	    	
-        p3.setResidencial(e3);    	
-        System.out.println(p3.toString());           
-        ProgramadorController.incluir(p3);
 		
+		String dir = "c:/atendimento/";
+		String arq = "programador.txt";
+		
+		FileReader filereader = new FileReader(dir+arq);
+		BufferedReader leitura = new BufferedReader(filereader);
+		
+		String linha = leitura.readLine();
+		
+		while(linha != null) {	
+			
+			try {		
+				
+				String[] campos = linha.split(";");			
+		    	Programador p1 = new Programador();    	
+		    	p1.setNome(campos[0]);
+		    	p1.setCPF(campos[1]);
+		    	p1.setSexo(campos[2].charAt(0));
+		    	p1.setIdade(Integer.parseInt(campos[3]));  	
+		    	p1.setLinguagem(campos[4]);
+		    	p1.setSabeoo(campos[5].charAt(0));
+		    	p1.setBebecafe(campos[6].charAt(0));    	   	
+		        Endereco e1 = new Endereco();
+		        e1.setCidade(campos[7]);
+		        e1.setCEP(Integer.parseInt(campos[8]));    	    	
+		        p1.setResidencial(e1);    	
+		        ProgramadorController.incluir(p1);
+			}catch (Exception e) {
+				System.out.println("[ERRO]: "+e.getMessage());
+			}
+			
+			linha = leitura.readLine();
+		}
+		
+		leitura.close();
+
 	}
 
 }

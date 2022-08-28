@@ -1,6 +1,9 @@
 package br.edu.infnet.atendimento.model.test;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +17,7 @@ import br.edu.infnet.atendimento.model.domain.Clientes;
 import br.edu.infnet.atendimento.model.domain.Comercial;
 import br.edu.infnet.atendimento.model.domain.Endereco;
 import br.edu.infnet.atendimento.model.domain.Profissional;
+import br.edu.infnet.atendimento.model.exceptions.ClienteChamadoVazio;
 
 @Component
 public class ChamadoTeste implements ApplicationRunner {
@@ -42,48 +46,50 @@ public class ChamadoTeste implements ApplicationRunner {
 		profissionais.add(comercial2);
 		profissionais.add(comercial3);
 		
-        Endereco e1 = new Endereco();
-        e1.setCidade("SAO VICENTE DE MINAS");
-        e1.setCEP(646476868);    						
-		Clientes c1 = new Clientes("LUIZINHO", 50, 'M', "1234567890", e1);					
+		
+		
+		String dir = "c:/atendimento/";
+		String arq = "chamado.txt";
+		
+		FileReader filereader = new FileReader(dir+arq);
+		BufferedReader leitura = new BufferedReader(filereader);
+		
+		String linha = leitura.readLine();
+		
+		while(linha != null) {
+			
+			try {
+				
+					String[] campos = linha.split(";");		
+					
+					LocalDate dataini = LocalDate.parse(campos[8], DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+					LocalDate datafim = LocalDate.parse(campos[9], DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+			
+			        Endereco e1 = new Endereco();
+			        e1.setCidade(campos[0]);
+			        e1.setCEP( Integer.parseInt(campos[1]));    						
+					Clientes c1 = new Clientes(campos[2], Integer.parseInt(campos[3]), campos[4].charAt(0), campos[5], e1);			
+
+					Chamado chamado1 = new Chamado(c1);    	
+			    	chamado1.setCodigo(Integer.parseInt(campos[6]));
+			    	chamado1.setProblema(campos[7]);
+			    	chamado1.setDataini(dataini);
+			    	chamado1.setDatafim(datafim);
+			    	chamado1.setSolucao(campos[10]);    
+			    	chamado1.setProfissionais(profissionais);
+			    	ChamadoController.incluir(chamado1);
+				}catch (ClienteChamadoVazio e) {
+					System.out.println("[ERRO] : "+e.getMessage());
+				}catch (Exception e) {
+					System.out.println("[ERRO] : "+e.getMessage());
+				}
     	
-		Chamado chamado1 = new Chamado();    	
-    	chamado1.setCodigo(1);
-    	chamado1.setProblema("PROBLEMA NA NOTA");
-    	chamado1.setDataini(LocalDate.now());
-    	chamado1.setDatafim(LocalDate.now());
-    	chamado1.setSolucao("RECEITA ESTAVA FORA DO AR");    
-    	chamado1.setCliente(c1);
-    	chamado1.setProfissionais(profissionais);
-    	ChamadoController.incluir(chamado1);
-    	
-        Endereco e2 = new Endereco();
-        e2.setCidade("PASSOS");
-        e2.setCEP(646476868);    						
-		Clientes c2 = new Clientes("CAMILA", 27, 'F', "514264738", e2);		    	
-    	
-		Chamado chamado2 = new Chamado();    	
-    	chamado2.setCodigo(2);
-    	chamado2.setProblema("ESTOQUE DANDO DIFERENÇA NO INVENTARIO");
-    	chamado2.setDataini(LocalDate.now());
-    	chamado2.setDatafim(LocalDate.now());
-    	chamado2.setSolucao("NFE LANÇADA ERRADA");    
-    	chamado2.setCliente(c2);
-    	ChamadoController.incluir(chamado2);
-    	
-        Endereco e3 = new Endereco();
-        e3.setCidade("LAVRAS");
-        e3.setCEP(646476868);    						
-		Clientes c3 = new Clientes("ERICK", 35, 'M', "647382736", e3);	    	
-    	
-		Chamado chamado3 = new Chamado();    	
-    	chamado3.setCodigo(2);
-    	chamado3.setProblema("CONTAS RECEBER DIFERENTE DO EXTRATO");
-    	chamado3.setDataini(LocalDate.now());
-    	chamado3.setDatafim(LocalDate.now());
-    	chamado3.setSolucao("LANÇAMENTO ERRADO NO CONTAS RECEBER");    	 
-    	chamado3.setCliente(c3);
-    	ChamadoController.incluir(chamado3);
-    	
+		        linha = leitura.readLine();
+	    }
+	
+	leitura.close();	
+		
+		
+		
 	}
 }

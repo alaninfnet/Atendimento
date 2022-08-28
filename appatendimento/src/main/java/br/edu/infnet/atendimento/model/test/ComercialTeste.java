@@ -2,6 +2,8 @@ package br.edu.infnet.atendimento.model.test;
 
 import br.edu.infnet.atendimento.model.domain.Endereco;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.time.LocalDate;
 
 import org.springframework.boot.ApplicationArguments;
@@ -15,52 +17,43 @@ public class ComercialTeste implements ApplicationRunner {
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
 		
-    	Comercial c1 = new Comercial();    	
-    	c1.setNome("HENRRIQUE");
-    	c1.setCPF("1234567890");
-    	c1.setSexo('M');
-    	c1.setIdade(23);  	
-    	c1.setBomdevenda('S');
-    	c1.setMetamensal(1000);
-    	c1.setDtultmavenda(LocalDate.now());
-    	
-        Endereco e1 = new Endereco();
-        e1.setCidade("BOA ESPERANCA");
-        e1.setCEP(37170000);    	
-    	
-        c1.setResidencial(e1);    	
-        ComercialController.incluir(c1);
-        
-    	Comercial c2 = new Comercial();    	
-    	c2.setNome("LIDIANE");
-    	c2.setCPF("1234567890");
-    	c2.setSexo('F');
-    	c2.setIdade(23);  	
-    	c2.setBomdevenda('S');
-    	c2.setMetamensal(1000);
-    	c2.setDtultmavenda(LocalDate.now());
-    	
-        Endereco e2 = new Endereco();
-        e2.setCidade("BOA ESPERANCA");
-        e2.setCEP(37170000);    	
-    	
-        c2.setResidencial(e2);    	
-        ComercialController.incluir(c2);
-        
-    	Comercial c3 = new Comercial();    	
-    	c3.setNome("DENISE");
-    	c3.setCPF("1234567890");
-    	c3.setSexo('F');
-    	c3.setIdade(23);  	
-    	c3.setBomdevenda('S');
-    	c3.setMetamensal(1000);
-    	c3.setDtultmavenda(LocalDate.now());
-    	
-        Endereco e3 = new Endereco();
-        e3.setCidade("BOA ESPERANCA");
-        e3.setCEP(37170000);    	
-    	
-        c3.setResidencial(e3);    	
-        ComercialController.incluir(c3);
+		String dir = "c:/atendimento/";
+		String arq = "comercial.txt";
+		
+		FileReader filereader = new FileReader(dir+arq);
+		BufferedReader leitura = new BufferedReader(filereader);
+		
+		String linha = leitura.readLine();
+		
+		while(linha != null) {	
+			
+			try {		
+				
+				String[] campos = linha.split(";");		
+				
+		    	Comercial c1 = new Comercial();    	
+		    	c1.setNome(campos[0]);
+		    	c1.setCPF(campos[1]);
+		    	c1.setSexo(campos[2].charAt(0));
+		    	c1.setIdade( Integer.parseInt(campos[3]));  	
+		    	c1.setBomdevenda(campos[4].charAt(0));
+		    	c1.setMetamensal( Double.parseDouble(campos[5]));
+		    	c1.setDtultmavenda( LocalDate.now() );
+		    	
+		        Endereco e1 = new Endereco();
+		        e1.setCidade(campos[6]);
+		        e1.setCEP( Integer.parseInt(campos[7]));    	
+		    	
+		        c1.setResidencial(e1);    	
+		        ComercialController.incluir(c1);
+			}catch (Exception e) {
+				System.out.println("[ERRO]: "+e.getMessage());
+			}
+			
+			linha = leitura.readLine();
+		}
+		
+		leitura.close();
+
 	}
 }
