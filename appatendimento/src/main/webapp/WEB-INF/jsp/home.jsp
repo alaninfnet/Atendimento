@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c' %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,33 +9,7 @@
 </head>
 <body>
 
-	<nav class="navbar navbar-expand-sm bg-light">
-	
-	  <div class="container-fluid">
-	    <!-- Links -->
-	    <ul class="navbar-nav">
-	      <li class="nav-item">
-	        <a class="nav-link" href="/">Home</a>
-	      </li>	    
-	      <li class="nav-item">
-	        <a class="nav-link" href="/chamado/lista">Chamado</a>
-	      </li>
-	      <li class="nav-item">
-	        <a class="nav-link" href="/clientes/lista">Clientes</a>
-	      </li>
-	      <li class="nav-item">
-	        <a class="nav-link" href="/comercial/lista">Comercial</a>
-	      </li>
-	      <li class="nav-item">
-	        <a class="nav-link" href="/programador/lista">Programador</a>
-	      </li>
-	      <li class="nav-item">
-	        <a class="nav-link" href="/suporte/lista">Suporte</a>
-	      </li>      	      	      
-	    </ul>
-	  </div>
-	
-	</nav>
+	<c:import url="/WEB-INF/jsp/menu.jsp"/>
 
 	<div class="container mt-3">
 	  <h2>Atendimento</h2>

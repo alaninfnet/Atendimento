@@ -7,20 +7,24 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
-import br.edu.infnet.atendimento.controller.ChamadoController;
 import br.edu.infnet.atendimento.model.domain.Chamado;
 import br.edu.infnet.atendimento.model.domain.Clientes;
 import br.edu.infnet.atendimento.model.domain.Comercial;
 import br.edu.infnet.atendimento.model.domain.Endereco;
 import br.edu.infnet.atendimento.model.domain.Profissional;
 import br.edu.infnet.atendimento.model.exceptions.ClienteChamadoVazio;
+import br.edu.infnet.atendimento.model.service.ChamadoService;
 
 @Component
 public class ChamadoTeste implements ApplicationRunner {
+	
+	@Autowired
+	ChamadoService chamadoService;
 	
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
@@ -77,7 +81,7 @@ public class ChamadoTeste implements ApplicationRunner {
 			    	chamado1.setDatafim(datafim);
 			    	chamado1.setSolucao(campos[10]);    
 			    	chamado1.setProfissionais(profissionais);
-			    	ChamadoController.incluir(chamado1);
+			    	chamadoService.incluir(chamado1);
 				}catch (ClienteChamadoVazio e) {
 					System.out.println("[ERRO] : "+e.getMessage());
 				}catch (Exception e) {

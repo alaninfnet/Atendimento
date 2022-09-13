@@ -1,19 +1,23 @@
 package br.edu.infnet.atendimento.model.test;
 
-import br.edu.infnet.atendimento.model.domain.Endereco;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.time.LocalDate;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
-import br.edu.infnet.atendimento.controller.ComercialController;
 import br.edu.infnet.atendimento.model.domain.Comercial;
+import br.edu.infnet.atendimento.model.domain.Endereco;
+import br.edu.infnet.atendimento.model.service.ComercialService;
 @Component
 public class ComercialTeste implements ApplicationRunner {
+	
+	@Autowired
+	ComercialService comercialService;
+	
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
 		
@@ -45,7 +49,7 @@ public class ComercialTeste implements ApplicationRunner {
 		        e1.setCEP( Integer.parseInt(campos[7]));    	
 		    	
 		        c1.setResidencial(e1);    	
-		        ComercialController.incluir(c1);
+		        comercialService.incluir(c1);
 			}catch (Exception e) {
 				System.out.println("[ERRO]: "+e.getMessage());
 			}

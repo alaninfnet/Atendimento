@@ -15,32 +15,25 @@
 	  <h2>Atendimento</h2>
 	  <p>Projeto de Gestão de Atendimentos</p>
 	  
-	  <h3>Classe: Chamado</h3>	              
+	  <h3>Classe: Usuários</h3>	              
 	  <table class="table table-striped">
 	    <thead>
 	      <tr>
-	        <th>Código</th>
-	        <th>DataIni</th>
-	        <th>DataFim</th>
-	        <th>Problema</th>
-	        <th>Solução</th>
-	        <th>Cliente</th>
+	        <th>Nome</th>
+	        <th>Email</th>
+	        <th>Senha</th>
 	        <th>#</th>
 	      </tr>
 	    </thead>
 	    <tbody>
-	      <c:forEach var="b" items="${listagem}">
-		      <tr>
-		        <td>${b.codigo}</td>
-		        <td>${b.dataini}</td>
-		        <td>${b.datafim}</td>
-		        <td>${b.problema}</td>
-		        <td>${b.solucao}</td>
-		        <td>${b.cliente.getNome()}</td>
-		        <td><a href="/chamado/${b.codigo}/excluir">excluir</a></td>
-		      </tr>
-		   </c:forEach>	      
-	      	      
+		  <c:forEach var="b" items="${listagem}">
+	     	 <tr>
+	     	    <td>${b.nome}</td>
+		        <td>${b.email}</td>
+		        <td>***********</td>
+		        <td><a href="/usuario/${b.email}/excluir">excluir</a></td>
+		      </tr>	      
+    	  </c:forEach>    
 	    </tbody>
 	  </table>
 	  

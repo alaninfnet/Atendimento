@@ -3,16 +3,20 @@ package br.edu.infnet.atendimento.model.test;
 import java.io.BufferedReader;
 import java.io.FileReader;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
-import br.edu.infnet.atendimento.controller.ProgramadorController;
 import br.edu.infnet.atendimento.model.domain.Endereco;
 import br.edu.infnet.atendimento.model.domain.Programador;
+import br.edu.infnet.atendimento.model.service.ProgramadorService;
 
 @Component
 public class ProgramadorTeste implements ApplicationRunner {
+	
+	@Autowired
+	ProgramadorService programadorService;
 
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
@@ -43,7 +47,7 @@ public class ProgramadorTeste implements ApplicationRunner {
 		        e1.setCidade(campos[7]);
 		        e1.setCEP(Integer.parseInt(campos[8]));    	    	
 		        p1.setResidencial(e1);    	
-		        ProgramadorController.incluir(p1);
+		        programadorService.incluir(p1);
 			}catch (Exception e) {
 				System.out.println("[ERRO]: "+e.getMessage());
 			}

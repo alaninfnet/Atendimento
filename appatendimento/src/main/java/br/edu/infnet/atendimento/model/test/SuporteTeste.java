@@ -1,20 +1,23 @@
 package br.edu.infnet.atendimento.model.test;
 
-import br.edu.infnet.atendimento.model.domain.Suporte;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
-import br.edu.infnet.atendimento.controller.SuporteController;
 import br.edu.infnet.atendimento.model.domain.Endereco;
+import br.edu.infnet.atendimento.model.domain.Suporte;
+import br.edu.infnet.atendimento.model.service.SuporteService;
 
 @Component
 public class SuporteTeste implements ApplicationRunner {
 
+	@Autowired
+	SuporteService suporteService;
+	
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
 		
@@ -44,7 +47,7 @@ public class SuporteTeste implements ApplicationRunner {
 		        e1.setCidade(campos[7]);
 		        e1.setCEP( Integer.parseInt(campos[8]));    	    	
 		        s1.setResidencial(e1);    	
-		        SuporteController.incluir(s1);
+		        suporteService.incluir(s1);
 					}catch (Exception e) {
 						System.out.println("[ERRO]: "+e.getMessage());
 					}
